@@ -1,5 +1,6 @@
 import re
 
+comment_pattern = r";",
 identifier_pattern = r"\w+"
 label_pattern = identifier_pattern + r":",
 
@@ -78,4 +79,12 @@ instructions = [
     },
 ]
 
-print(instructions)
+input_path = "input.txt"
+output_path = "input.txt"
+
+with open(input_path, "r") as file:
+    input_lines = file.readlines()
+
+for line_number, line in enumerate(input_lines):
+    line = line.replace("\n", "")
+    print(f"{line_number}: {line}")
