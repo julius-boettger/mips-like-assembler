@@ -126,7 +126,7 @@ instructions = [
     {
         "pattern": r"db #(" + hex_byte_pattern + r")",
         "machinecode": lambda line, index: capture_group_content(line, index),
-        "bytes": lambda i1, i2: 2,
+        "bytes": lambda i1, i2: 1,
     },
     {
         "pattern": r"resb #(" + hex_byte_pattern + r")+",
