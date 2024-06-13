@@ -1,6 +1,5 @@
 import re
 
-comment_pattern = r";",
 identifier_pattern = r"([a-z]+)" # capture group for identifier (of label)
 hex_byte_pattern = r"[\da-f]{2}"
 label_pattern = identifier_pattern + r":",
@@ -140,6 +139,14 @@ instructions = [
     },
 ]
 
+
+def remove_comment(line: str) -> str:
+    i = line.find(";")
+    if i == -1:
+        return line
+    return line[:i]
+
+
 input_path = "input.txt"
 output_path = "input.txt"
 
@@ -147,5 +154,6 @@ with open(input_path, "r") as file:
     input_lines = file.readlines()
 
 for line_number, line in enumerate(input_lines):
-    line = line.replace("\n", "")
+    line_number += 1 # dont count from 0
+    line = remove_comment(line.replace("\n", ""))
     print(f"{line_number}: {line}")
