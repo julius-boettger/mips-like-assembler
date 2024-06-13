@@ -19,14 +19,12 @@ def capture_group_content(line: str, index: int) -> str:
 
 # get hex machinecode for resb instruction, using line and index of instruction (see doc below)
 def resb_machinecode(line: str, index: int) -> str:
-    # TODO
-    return "00"
+    return "00" * resb_bytes(line, index)
 
 
 # get number of hex bytes for resb instruction, using line and index of instruction (see doc below)
 def resb_bytes(line: str, index: int) -> int:
-    # TODO
-    return 1
+    return int(capture_group_content(line, index), 16)
 
 
 instructions = [
