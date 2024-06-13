@@ -12,10 +12,9 @@ def label_address(line: str, index: int) -> str:
     return "00"
 
 
-# get content of capture group, using pattern matching with line and index of instruction (see doc below)
+# get content of first capture group, using pattern matching with line and index of instruction (see doc below)
 def capture_group_content(line: str, index: int) -> str:
-    # TODO
-    return "00"
+    return re.compile(instructions[index]["pattern"], re.IGNORECASE).match(line).group(1)
 
 
 # get hex machinecode for resb instruction, using line and index of instruction (see doc below)
