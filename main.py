@@ -1,81 +1,112 @@
 import re
 
 comment_pattern = r";",
-identifier_pattern = r"\w+"
+identifier_pattern = r"([a-z]+)" # capture group for identifier (of label)
+hex_byte_pattern = r"[\da-f]{2}"
 label_pattern = identifier_pattern + r":",
+
+
+# get hex address like "0f" of label, using line and index of instruction (see doc below)
+def label_address(line: str, index: int) -> str:
+    # TODO
+    return "00"
+
+
+# get content of capture group, using pattern matching with line and index of instruction (see doc below)
+def capture_group_content(line: str, index: int) -> str:
+    # TODO
+    return "00"
+
+
+# get hex machinecode for resb instruction, using line and index of instruction (see doc below)
+def resb_machinecode(line: str, index: int) -> str:
+    # TODO
+    return "00"
+
 
 instructions = [
     {
-        "name": r"nop",
-        "opcode": "02",
+        # regex pattern to match line of assembly code
+        "pattern": r"nop",
+        # receives: line of assembly code (str), index in instruction array (int)
+        # returns: hex bytes without spaces (str)
+        "machinecode": lambda i1, i2: "02",
     },
     {
-        "name": r"halt",
-        "opcode": "03",
+        "pattern": r"halt",
+        "machinecode": lambda i1, i2: "03",
     },
     {
-        "name": r"in a",
-        "opcode": "04",
+        "pattern": r"in a",
+        "machinecode": lambda i1, i2: "04",
     },
     {
-        "name": r"in b",
-        "opcode": "05",
+        "pattern": r"in b",
+        "machinecode": lambda i1, i2: "05",
     },
     {
-        "name": r"out a",
-        "opcode": "06",
+        "pattern": r"out a",
+        "machinecode": lambda i1, i2: "06",
     },
     {
-        "name": r"out b",
-        "opcode": "07",
+        "pattern": r"out b",
+        "machinecode": lambda i1, i2: "07",
     },
     {
-        "name": r"inc a",
-        "opcode": "08",
+        "pattern": r"inc a",
+        "machinecode": lambda i1, i2: "08",
     },
     {
-        "name": r"inc b",
-        "opcode": "09",
+        "pattern": r"inc b",
+        "machinecode": lambda i1, i2: "09",
     },
     {
-        "name": r"add ab",
-        "opcode": "0a",
+        "pattern": r"add ab",
+        "machinecode": lambda i1, i2: "0a",
     },
     {
-        "name": r"sub ab",
-        "opcode": "0b",
+        "pattern": r"sub ab",
+        "machinecode": lambda i1, i2: "0b",
     },
     {
-        "name": r"and ab",
-        "opcode": "0c",
+        "pattern": r"and ab",
+        "machinecode": lambda i1, i2: "0c",
     },
     {
-        "name": r"or ab",
-        "opcode": "0d",
+        "pattern": r"or ab",
+        "machinecode": lambda i1, i2: "0d",
     },
     {
-        "name": r"mov ba",
-        "opcode": "0e",
+        "pattern": r"mov ba",
+        "machinecode": lambda i1, i2: "0e",
     },
     {
-        "name": r"jmp " + identifier_pattern,
-        "opcode": "0f",
+        "pattern": r"jmp " + identifier_pattern,
+        "machinecode": lambda line, index: "0f" + label_address(line, index),
     },
     {
-        "name": r"breq " + identifier_pattern,
-        "opcode": "12",
+        "pattern": r"breq " + identifier_pattern,
+        "machinecode": lambda line, index: "12" + label_address(line, index),
     },
     {
-        "name": r"load a,\s*#[\da-f]{2}",
-        "opcode": "15",
+        "pattern": r"load a,\s*#(" + hex_byte_pattern + r")",
+        "machinecode": lambda line, index: "15" + capture_group_content(line, index),
     },
     {
-        "name": r"load a,\s*" + identifier_pattern,
-        "opcode": "18",
+        "pattern": r"load a,\s*" + identifier_pattern,
+        "machinecode": lambda line, index: "18" + label_address(line, index),
     },
     {
-        "name": r"store " + identifier_pattern,
-        "opcode": "1f",
+        "pattern": r"store " + identifier_pattern,
+        "machinecode": lambda line, index: "1f" + label_address(line, index),
+    },
+    {
+        "pattern": r"db #(" + hex_byte_pattern + r")",
+        "machinecode": lambda line, index: capture_group_content(line, index),
+    },
+    {
+        "pattern": r"resb #(" + hex_byte_pattern + r")+",
+        "machinecode": lambda line, index: resb_machinecode(line, index)
     },
 ]
 
