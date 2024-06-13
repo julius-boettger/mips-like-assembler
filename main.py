@@ -112,7 +112,7 @@ instructions = [
         "bytes": lambda i1, i2: 2,
     },
     {
-        "pattern": r"load a,\s*#(" + hex_byte_pattern + r")",
+        "pattern": r"loadv a,\s*#(" + hex_byte_pattern + r")",
         "machinecode": lambda line, index: "15" + capture_group_content(line, index),
         "bytes": lambda i1, i2: 2,
     },
