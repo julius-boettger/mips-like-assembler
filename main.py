@@ -2,7 +2,7 @@ import re
 
 identifier_pattern = r"([a-z]+)" # capture group for identifier (of label)
 hex_byte_pattern = r"[\da-f]{2}"
-label_pattern = identifier_pattern + r":"
+label_pattern = identifier_pattern + r": "
 
 
 # get hex address like "0f" of label, using line and index of instruction (see doc below)
@@ -150,10 +150,15 @@ def remove_comment(line: str) -> str:
 input_path = "input.txt"
 output_path = "input.txt"
 
+# read file
 with open(input_path, "r") as file:
-    input_lines = file.readlines()
+    input_lines = enumerate(file.readlines())
 
-for line_number, line in enumerate(input_lines):
+# first pass: register labels
+for line_number, line in input_lines:
     line_number += 1 # dont count from 0
     line = remove_comment(line.replace("\n", ""))
-    print(f"{line_number}: {line}")
+    for instruction in instructions:
+        pattern = r"^\s*(?:" + label_pattern + r")?\s*" + instruction["pattern"] + r"\s*$"
+        if re.compile(pattern, re.IGNORECASE).match(line) is not None:
+            print(instruction)
