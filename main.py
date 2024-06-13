@@ -2,7 +2,7 @@ import re
 
 identifier_pattern = r"([a-z]+)" # capture group for identifier (of label)
 hex_byte_pattern = r"[\da-f]{2}"
-label_pattern = identifier_pattern + r":",
+label_pattern = identifier_pattern + r":"
 
 
 # get hex address like "0f" of label, using line and index of instruction (see doc below)
