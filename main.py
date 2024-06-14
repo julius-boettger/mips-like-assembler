@@ -5,10 +5,9 @@ hex_byte_pattern = r"[\da-f]{2}"
 label_pattern = identifier_pattern + r": "
 
 
-# get hex address like "0f" of label, using line and pattern of instruction (see doc below)
+# get 1 byte hex address like "0f" of label, using line and pattern of instruction (see doc below)
 def label_address(line: str, pattern: str) -> str:
-    # TODO
-    return "00"
+    return "%0.2x" % label_table[capture_group_content(line, pattern)]
 
 
 # get content of first capture group, using pattern matching with line and pattern of instruction (see doc below)
