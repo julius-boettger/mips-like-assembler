@@ -147,6 +147,12 @@ def remove_comment(line: str) -> str:
     return line[:i]
 
 
+# will be populated during first pass
+ilc = 0
+label_table = {
+    #"label_name": address_in_ram (int)
+}
+
 input_path = "input.txt"
 output_path = "input.txt"
 
@@ -158,7 +164,24 @@ with open(input_path, "r") as file:
 for line_number, line in input_lines:
     line_number += 1 # dont count from 0
     line = remove_comment(line.replace("\n", ""))
+
+    # match valid assembly code line with instruction (and possibly a label too)
+    instruction_match = None
     for instruction in instructions:
         pattern = r"^\s*(?:" + label_pattern + r")?\s*" + instruction["pattern"] + r"\s*$"
-        if re.compile(pattern, re.IGNORECASE).match(line) is not None:
-            print(instruction)
+        match = re.compile(pattern, re.IGNORECASE).match(line)
+        if match is not None:
+            instruction_match = {
+                "match": match,
+                "instruction": instruction,
+            }
+
+    if instruction_match is not None:
+        label = instruction_match["match"].group(1)
+        # label was found
+        if label is not None:
+            label_table[label] = ilc
+        ilc += instruction_match["instruction"]["bytes"](line, instruction_match["instruction"]["pattern"])
+    elif re.compile(r"^\s*$", re.IGNORECASE).match(line) is None:
+        print(f"line {line_number} is invalid!")
+        exit(1)
