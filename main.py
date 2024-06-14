@@ -191,7 +191,7 @@ for line_number, line in enumerate(input_lines):
             print(f"translating line {line_number} would result in a program that exceeds the memory capacity ({2**8} bytes)!")
             exit(1)
     elif re.compile(r"^\s*$", re.IGNORECASE).fullmatch(line) is None:
-        print(f"line {line_number} is invalid!")
+        print(f"\033[91mError\033[0m: Line {line_number} is syntactically invalid")
         exit(1)
 
 # second pass: translate to machine code
@@ -213,7 +213,14 @@ for line_number, line in enumerate(input_lines):
 
     if instruction_match is not None:
         instruction = instruction_match["instruction"]
-        machinecode = instruction["machinecode"](line, instruction["pattern"])
+
+        try:
+            machinecode = instruction["machinecode"](line, instruction["pattern"])
+        # if referencing a label that was never defined
+        except KeyError:
+            print(f'\033[91mError\033[0m: Line {line_number} is referencing a label that was never defined: {capture_group_content(line, instruction["pattern"])}')
+            exit(1)
+
         if machinecode != "":
             print(f'{line_number}: {instruction_match["match"].group(0)} ; => {space_every_two(machinecode)}')
         output += machinecode
@@ -223,4 +230,4 @@ output = "v3.0 hex words plain\n" + space_every_two(output)
 with open(output_path, "w") as file:
     file.writelines(output)
 
-print(f"\nSuccessfully assembled. Wrote file {output_path} with machine code:\n" + output)
+print(f"\n\033[92mSuccess\033[0m. Wrote file {output_path} with machine code:\n" + output)
