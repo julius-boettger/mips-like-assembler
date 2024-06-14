@@ -13,7 +13,7 @@ def label_address(line: str, pattern: str) -> str:
 
 # get content of first capture group, using pattern matching with line and pattern of instruction (see doc below)
 def capture_group_content(line: str, pattern: str) -> str:
-    return re.compile(pattern, re.IGNORECASE).match(line).group(1)
+    return re.compile(pattern, re.IGNORECASE).search(line).group(1)
 
 
 # get hex machinecode for resb instruction, using line and pattern of instruction (see doc below)
@@ -169,7 +169,7 @@ for line_number, line in input_lines:
     instruction_match = None
     for instruction in instructions:
         pattern = r"^\s*(?:" + label_pattern + r")?\s*" + instruction["pattern"] + r"\s*$"
-        match = re.compile(pattern, re.IGNORECASE).match(line)
+        match = re.compile(pattern, re.IGNORECASE).fullmatch(line)
         if match is not None:
             instruction_match = {
                 "match": match,
