@@ -164,7 +164,7 @@ label_table = {
 }
 for line_number, line in enumerate(input_lines):
     line_number += 1 # dont count from 0
-    line = remove_comment(line.replace("\n", ""))
+    line = remove_comment(line.replace("\n", "")).strip()
 
     # match valid assembly code line with instruction (and possibly a label too)
     instruction_match = None
@@ -198,7 +198,7 @@ for line_number, line in enumerate(input_lines):
 output = "" # machine code in hex without spaces like "0f0f0f0f"
 for line_number, line in enumerate(input_lines):
     line_number += 1 # dont count from 0
-    line = remove_comment(line.replace("\n", ""))
+    line = remove_comment(line.replace("\n", "")).strip()
 
     # match valid assembly code line with instruction (and possibly a label too)
     instruction_match = None
