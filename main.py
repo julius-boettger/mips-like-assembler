@@ -151,7 +151,7 @@ def space_every_two(string: str) -> str:
 
 
 input_path = "input.txt"
-output_path = "input.txt"
+output_path = "output.txt"
 
 # read file
 with open(input_path, "r") as file:
@@ -215,4 +215,9 @@ for line_number, line in enumerate(input_lines):
             print(f'{line_number}: {instruction_match["match"].group(0)} ; => {space_every_two(machinecode)}')
         output += machinecode
 
-print("\nSuccessfully assembled. Machine code:\n" + space_every_two(output))
+output = "v3.0 hex words plain\n" + space_every_two(output)
+# write file
+with open(output_path, "w") as file:
+    file.writelines(output)
+
+print(f"\nSuccessfully assembled. Wrote file {output_path} with machine code:\n" + output)
