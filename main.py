@@ -146,21 +146,23 @@ def remove_comment(line: str) -> str:
     return line[:i]
 
 
-# will be populated during first pass
-ilc = 0
-label_table = {
-    #"label_name": address_in_ram (int)
-}
+def space_every_two(string: str) -> str:
+    return " ".join(re.findall(r"..", string))
+
 
 input_path = "input.txt"
 output_path = "input.txt"
 
 # read file
 with open(input_path, "r") as file:
-    input_lines = enumerate(file.readlines())
+    input_lines = file.readlines()
 
 # first pass: register labels
-for line_number, line in input_lines:
+ilc = 0
+label_table = {
+    #"label_name": address_in_ram (int)
+}
+for line_number, line in enumerate(input_lines):
     line_number += 1 # dont count from 0
     line = remove_comment(line.replace("\n", ""))
 
@@ -188,3 +190,29 @@ for line_number, line in input_lines:
     elif re.compile(r"^\s*$", re.IGNORECASE).fullmatch(line) is None:
         print(f"line {line_number} is invalid!")
         exit(1)
+
+# second pass: translate to machine code
+output = "" # machine code in hex without spaces like "0f0f0f0f"
+for line_number, line in enumerate(input_lines):
+    line_number += 1 # dont count from 0
+    line = remove_comment(line.replace("\n", ""))
+
+    # match valid assembly code line with instruction (and possibly a label too)
+    instruction_match = None
+    for instruction in instructions:
+        pattern = r"^\s*(?:" + label_pattern + r")?\s*" + instruction["pattern"] + r"\s*$"
+        match = re.compile(pattern, re.IGNORECASE).fullmatch(line)
+        if match is not None:
+            instruction_match = {
+                "match": match,
+                "instruction": instruction,
+            }
+
+    if instruction_match is not None:
+        instruction = instruction_match["instruction"]
+        machinecode = instruction["machinecode"](line, instruction["pattern"])
+        if machinecode != "":
+            print(f'{line_number}: {instruction_match["match"].group(0)} ; => {space_every_two(machinecode)}')
+        output += machinecode
+
+print("\nSuccessfully assembled. Machine code:\n" + space_every_two(output))
