@@ -1,6 +1,6 @@
 import re
 
-identifier_pattern = r"([a-z]+)" # capture group for identifier (of label)
+identifier_pattern = r"([_a-z]\w*)" # capture group for identifier (of label)
 hex_byte_pattern = r"[\da-f]{2}"
 label_pattern = identifier_pattern + r": "
 
