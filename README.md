@@ -1,6 +1,8 @@
 # [MIPS](https://en.wikipedia.org/wiki/MIPS_architecture)-like assembler
 A very simple two-pass assembler for a self-designed 8-bit CPU based on [MIPS](https://en.wikipedia.org/wiki/MIPS_architecture).
 
+Written in collaboration with [NilsPvR](https://github.com/NilsPvR).
+
 ### Prerequisites
 - `python` is installed / accessible
 
