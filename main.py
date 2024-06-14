@@ -155,6 +155,11 @@ instructions = [
         "bytes": lambda i1, i2: 2,
     },
     {
+        "pattern": r"loadv\s+a\s*,\s*" + identifier_pattern,
+        "machinecode": lambda line, pattern: "15" + label_address(line, pattern),
+        "bytes": lambda i1, i2: 2,
+    },
+    {
         "pattern": r"load\s+a\s*,\s*" + identifier_pattern,
         "machinecode": lambda line, pattern: "18" + label_address(line, pattern),
         "bytes": lambda i1, i2: 2,
@@ -172,6 +177,11 @@ instructions = [
     {
         "pattern": r"db\s+#(" + hex_byte_pattern + r")",
         "machinecode": lambda line, pattern: two_hex_chars(capture_group_content(line, pattern)),
+        "bytes": lambda i1, i2: 1,
+    },
+    {
+        "pattern": r"db\s+" + identifier_pattern,
+        "machinecode": lambda line, pattern: label_address(line, pattern),
         "bytes": lambda i1, i2: 1,
     },
     {
