@@ -48,6 +48,24 @@ def resb_bytes(line: str, pattern: str) -> int:
     return int(capture_group_content(line, pattern), 16)
 
 
+# shared code of both assembler passes
+def pass_setup(line_number: int, line: str) -> dict:
+    line_number += 1 # dont count from 0
+    line = remove_comment(line.replace("\n", "")).strip().lower()
+
+    # match valid assembly code line with instruction (and possibly a label too)
+    instruction_match = None
+    for instruction in instructions:
+        pattern = r"^\s*(?:" + label_pattern + r")?\s*" + instruction["pattern"] + r"\s*$"
+        match = re.compile(pattern, re.IGNORECASE).fullmatch(line)
+        if match is not None:
+            instruction_match = {
+                "match": match,
+                "instruction": instruction,
+            }
+    return instruction_match
+
+
 instructions = [
     {
         # regex pattern to match line of assembly code
@@ -172,20 +190,7 @@ label_table = {
     #"label_name": address_in_ram (int)
 }
 for line_number, line in enumerate(input_lines):
-    line_number += 1 # dont count from 0
-    line = remove_comment(line.replace("\n", "")).strip().lower()
-
-    # match valid assembly code line with instruction (and possibly a label too)
-    instruction_match = None
-    for instruction in instructions:
-        pattern = r"^\s*(?:" + label_pattern + r")?\s*" + instruction["pattern"] + r"\s*$"
-        match = re.compile(pattern, re.IGNORECASE).fullmatch(line)
-        if match is not None:
-            instruction_match = {
-                "match": match,
-                "instruction": instruction,
-            }
-
+    instruction_match = pass_setup(line_number, line)
     if instruction_match is not None:
         instruction = instruction_match["instruction"]
         label = instruction_match["match"].group(1)
@@ -206,20 +211,7 @@ for line_number, line in enumerate(input_lines):
 # second pass: translate to machine code
 output = "" # machine code in hex without spaces like "0f0f0f0f"
 for line_number, line in enumerate(input_lines):
-    line_number += 1 # dont count from 0
-    line = remove_comment(line.replace("\n", "")).strip().lower()
-
-    # match valid assembly code line with instruction (and possibly a label too)
-    instruction_match = None
-    for instruction in instructions:
-        pattern = r"^\s*(?:" + label_pattern + r")?\s*" + instruction["pattern"] + r"\s*$"
-        match = re.compile(pattern, re.IGNORECASE).fullmatch(line)
-        if match is not None:
-            instruction_match = {
-                "match": match,
-                "instruction": instruction,
-            }
-
+    instruction_match = pass_setup(line_number, line)
     if instruction_match is not None:
         instruction = instruction_match["instruction"]
 
