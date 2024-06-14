@@ -49,8 +49,10 @@ def resb_bytes(line: str, pattern: str) -> int:
 
 
 # shared code of both assembler passes
-def pass_setup(line_number: int, line: str) -> dict:
+def pass_setup() -> dict:
+    global line_number
     line_number += 1 # dont count from 0
+    global line
     line = remove_comment(line.replace("\n", "")).strip().lower()
 
     # match valid assembly code line with instruction (and possibly a label too)
@@ -190,7 +192,7 @@ label_table = {
     #"label_name": address_in_ram (int)
 }
 for line_number, line in enumerate(input_lines):
-    instruction_match = pass_setup(line_number, line)
+    instruction_match = pass_setup()
     if instruction_match is not None:
         instruction = instruction_match["instruction"]
         label = instruction_match["match"].group(1)
@@ -211,7 +213,7 @@ for line_number, line in enumerate(input_lines):
 # second pass: translate to machine code
 output = "" # machine code in hex without spaces like "0f0f0f0f"
 for line_number, line in enumerate(input_lines):
-    instruction_match = pass_setup(line_number, line)
+    instruction_match = pass_setup()
     if instruction_match is not None:
         instruction = instruction_match["instruction"]
 
