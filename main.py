@@ -4,7 +4,7 @@ input_path = "input.txt"
 output_path = "output.txt"
 
 identifier_pattern = r"([_a-z]\w*)" # capture group for identifier (of label)
-hex_byte_pattern = r"[\da-f]{2}"
+hex_byte_pattern = r"[\da-f]{1,2}"
 label_pattern = identifier_pattern + r": "
 
 
@@ -19,6 +19,13 @@ def remove_comment(line: str) -> str:
 # put spaces in a string every 2 chars, e.g. "000000" => "00 00 00"
 def space_every_two(string: str) -> str:
     return " ".join(re.findall(r"..", string))
+
+
+# append "0" to beginning of string if its length is 1, e.g. "a" => "0a"
+def two_hex_chars(string: str) -> str:
+    if len(string) == 1:
+        return "0" + string
+    return string
 
 
 # get 1 byte hex address like "0f" of label, using line and pattern of instruction (see doc below)
@@ -124,7 +131,7 @@ instructions = [
     },
     {
         "pattern": r"loadv a,\s*#(" + hex_byte_pattern + r")",
-        "machinecode": lambda line, pattern: "15" + capture_group_content(line, pattern),
+        "machinecode": lambda line, pattern: "15" + two_hex_chars(capture_group_content(line, pattern)),
         "bytes": lambda i1, i2: 2,
     },
     {
@@ -144,7 +151,7 @@ instructions = [
     },
     {
         "pattern": r"db #(" + hex_byte_pattern + r")",
-        "machinecode": lambda line, pattern: capture_group_content(line, pattern),
+        "machinecode": lambda line, pattern: two_hex_chars(capture_group_content(line, pattern)),
         "bytes": lambda i1, i2: 1,
     },
     {
