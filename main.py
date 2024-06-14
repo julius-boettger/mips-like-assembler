@@ -1,8 +1,24 @@
 import re
 
+input_path = "input.txt"
+output_path = "output.txt"
+
 identifier_pattern = r"([_a-z]\w*)" # capture group for identifier (of label)
 hex_byte_pattern = r"[\da-f]{2}"
 label_pattern = identifier_pattern + r": "
+
+
+# remove comment from a line of code
+def remove_comment(line: str) -> str:
+    i = line.find(";")
+    if i == -1:
+        return line
+    return line[:i]
+
+
+# put spaces in a string every 2 chars, e.g. "000000" => "00 00 00"
+def space_every_two(string: str) -> str:
+    return " ".join(re.findall(r"..", string))
 
 
 # get 1 byte hex address like "0f" of label, using line and pattern of instruction (see doc below)
@@ -139,20 +155,6 @@ instructions = [
 ]
 
 
-def remove_comment(line: str) -> str:
-    i = line.find(";")
-    if i == -1:
-        return line
-    return line[:i]
-
-
-def space_every_two(string: str) -> str:
-    return " ".join(re.findall(r"..", string))
-
-
-input_path = "input.txt"
-output_path = "output.txt"
-
 # read file
 with open(input_path, "r") as file:
     input_lines = file.readlines()
@@ -225,7 +227,9 @@ for line_number, line in enumerate(input_lines):
             print(f'{line_number}: {instruction_match["match"].group(0)} ; => {space_every_two(machinecode)}')
         output += machinecode
 
+# make output readable with logisim evolution
 output = "v3.0 hex words plain\n" + space_every_two(output)
+
 # write file
 with open(output_path, "w") as file:
     file.writelines(output)
