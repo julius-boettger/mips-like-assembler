@@ -5,35 +5,35 @@ hex_byte_pattern = r"[\da-f]{2}"
 label_pattern = identifier_pattern + r": "
 
 
-# get hex address like "0f" of label, using line and index of instruction (see doc below)
-def label_address(line: str, index: int) -> str:
+# get hex address like "0f" of label, using line and pattern of instruction (see doc below)
+def label_address(line: str, pattern: str) -> str:
     # TODO
     return "00"
 
 
-# get content of first capture group, using pattern matching with line and index of instruction (see doc below)
-def capture_group_content(line: str, index: int) -> str:
-    return re.compile(instructions[index]["pattern"], re.IGNORECASE).match(line).group(1)
+# get content of first capture group, using pattern matching with line and pattern of instruction (see doc below)
+def capture_group_content(line: str, pattern: str) -> str:
+    return re.compile(pattern, re.IGNORECASE).match(line).group(1)
 
 
-# get hex machinecode for resb instruction, using line and index of instruction (see doc below)
-def resb_machinecode(line: str, index: int) -> str:
-    return "00" * resb_bytes(line, index)
+# get hex machinecode for resb instruction, using line and pattern of instruction (see doc below)
+def resb_machinecode(line: str, pattern: str) -> str:
+    return "00" * resb_bytes(line, pattern)
 
 
-# get number of hex bytes for resb instruction, using line and index of instruction (see doc below)
-def resb_bytes(line: str, index: int) -> int:
-    return int(capture_group_content(line, index), 16)
+# get number of hex bytes for resb instruction, using line and pattern of instruction (see doc below)
+def resb_bytes(line: str, pattern: str) -> int:
+    return int(capture_group_content(line, pattern), 16)
 
 
 instructions = [
     {
         # regex pattern to match line of assembly code
         "pattern": r"nop",
-        # receives: line of assembly code (str), index in instruction array (int)
+        # receives: line of assembly code (str), pattern of instruction (str)
         # returns: hex bytes without spaces (str)
         "machinecode": lambda i1, i2: "02",
-        # receives: line of assembly code (str), index in instruction array (int)
+        # receives: line of assembly code (str), pattern in instruction array (int)
         # returns: number of hex bytes (int)
         "bytes": lambda i1, i2: 1,
     },
@@ -99,43 +99,43 @@ instructions = [
     },
     {
         "pattern": r"jmp " + identifier_pattern,
-        "machinecode": lambda line, index: "0f" + label_address(line, index),
+        "machinecode": lambda line, pattern: "0f" + label_address(line, pattern),
         "bytes": lambda i1, i2: 2,
     },
     {
         "pattern": r"breq " + identifier_pattern,
-        "machinecode": lambda line, index: "12" + label_address(line, index),
+        "machinecode": lambda line, pattern: "12" + label_address(line, pattern),
         "bytes": lambda i1, i2: 2,
     },
     {
         "pattern": r"loadv a,\s*#(" + hex_byte_pattern + r")",
-        "machinecode": lambda line, index: "15" + capture_group_content(line, index),
+        "machinecode": lambda line, pattern: "15" + capture_group_content(line, pattern),
         "bytes": lambda i1, i2: 2,
     },
     {
         "pattern": r"load a,\s*" + identifier_pattern,
-        "machinecode": lambda line, index: "18" + label_address(line, index),
+        "machinecode": lambda line, pattern: "18" + label_address(line, pattern),
         "bytes": lambda i1, i2: 2,
     },
     {
         "pattern": r"store " + identifier_pattern,
-        "machinecode": lambda line, index: "1f" + label_address(line, index),
+        "machinecode": lambda line, pattern: "1f" + label_address(line, pattern),
         "bytes": lambda i1, i2: 2,
     },
     {
         "pattern": r"equ #(" + hex_byte_pattern + r")",
-        "machinecode": lambda line, index: "",
+        "machinecode": lambda line, pattern: "",
         "bytes": lambda i1, i2: 0,
     },
     {
         "pattern": r"db #(" + hex_byte_pattern + r")",
-        "machinecode": lambda line, index: capture_group_content(line, index),
+        "machinecode": lambda line, pattern: capture_group_content(line, pattern),
         "bytes": lambda i1, i2: 1,
     },
     {
         "pattern": r"resb #(" + hex_byte_pattern + r")+",
-        "machinecode": lambda line, index: resb_machinecode(line, index),
-        "bytes": lambda line, index: resb_bytes(line, index),
+        "machinecode": lambda line, pattern: resb_machinecode(line, pattern),
+        "bytes": lambda line, pattern: resb_bytes(line, pattern),
     },
 ]
 
