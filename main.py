@@ -176,11 +176,15 @@ for line_number, line in input_lines:
             }
 
     if instruction_match is not None:
+        instruction = instruction_match["instruction"]
         label = instruction_match["match"].group(1)
         # label was found
         if label is not None:
-            label_table[label] = ilc
-        ilc += instruction_match["instruction"]["bytes"](line, instruction_match["instruction"]["pattern"])
-    elif re.compile(r"^\s*$", re.IGNORECASE).match(line) is None:
+            if "equ" in instruction["pattern"]:
+                label_table[label] = int(capture_group_content(line, instruction["pattern"]), 16)
+            else:
+                label_table[label] = ilc
+        ilc += instruction["bytes"](line, instruction["pattern"])
+    elif re.compile(r"^\s*$", re.IGNORECASE).fullmatch(line) is None:
         print(f"line {line_number} is invalid!")
         exit(1)
