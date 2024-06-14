@@ -5,7 +5,7 @@ output_path = "output.txt"
 
 identifier_pattern = r"([_a-z]\w*)" # capture group for identifier (of label)
 hex_byte_pattern = r"[\da-f]{1,2}"
-label_pattern = identifier_pattern + r":"
+label_pattern = identifier_pattern + r"\s*:"
 
 
 # remove comment from a line of code
