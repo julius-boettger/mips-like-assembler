@@ -5,7 +5,7 @@ output_path = "output.txt"
 
 identifier_pattern = r"([_a-z]\w*)" # capture group for identifier (of label)
 hex_byte_pattern = r"[\da-f]{1,2}"
-label_pattern = identifier_pattern + r": "
+label_pattern = identifier_pattern + r":"
 
 
 # remove comment from a line of code
@@ -85,97 +85,97 @@ instructions = [
         "bytes": lambda i1, i2: 1,
     },
     {
-        "pattern": r"in a",
+        "pattern": r"in\s+a",
         "machinecode": lambda i1, i2: "04",
         "bytes": lambda i1, i2: 1,
     },
     {
-        "pattern": r"in b",
+        "pattern": r"in\s+b",
         "machinecode": lambda i1, i2: "05",
         "bytes": lambda i1, i2: 1,
     },
     {
-        "pattern": r"out a",
+        "pattern": r"out\s+a",
         "machinecode": lambda i1, i2: "06",
         "bytes": lambda i1, i2: 1,
     },
     {
-        "pattern": r"out b",
+        "pattern": r"out\s+b",
         "machinecode": lambda i1, i2: "07",
         "bytes": lambda i1, i2: 1,
     },
     {
-        "pattern": r"inc a",
+        "pattern": r"inc\s+a",
         "machinecode": lambda i1, i2: "08",
         "bytes": lambda i1, i2: 1,
     },
     {
-        "pattern": r"inc b",
+        "pattern": r"inc\s+b",
         "machinecode": lambda i1, i2: "09",
         "bytes": lambda i1, i2: 1,
     },
     {
-        "pattern": r"add ab",
+        "pattern": r"add\s+ab",
         "machinecode": lambda i1, i2: "0a",
         "bytes": lambda i1, i2: 1,
     },
     {
-        "pattern": r"sub ab",
+        "pattern": r"sub\s+ab",
         "machinecode": lambda i1, i2: "0b",
         "bytes": lambda i1, i2: 1,
     },
     {
-        "pattern": r"and ab",
+        "pattern": r"and\s+ab",
         "machinecode": lambda i1, i2: "0c",
         "bytes": lambda i1, i2: 1,
     },
     {
-        "pattern": r"or ab",
+        "pattern": r"or\s+ab",
         "machinecode": lambda i1, i2: "0d",
         "bytes": lambda i1, i2: 1,
     },
     {
-        "pattern": r"mov ba",
+        "pattern": r"mov\s+ba",
         "machinecode": lambda i1, i2: "0e",
         "bytes": lambda i1, i2: 1,
     },
     {
-        "pattern": r"jmp " + identifier_pattern,
+        "pattern": r"jmp\s+" + identifier_pattern,
         "machinecode": lambda line, pattern: "0f" + label_address(line, pattern),
         "bytes": lambda i1, i2: 2,
     },
     {
-        "pattern": r"breq " + identifier_pattern,
+        "pattern": r"breq\s+" + identifier_pattern,
         "machinecode": lambda line, pattern: "12" + label_address(line, pattern),
         "bytes": lambda i1, i2: 2,
     },
     {
-        "pattern": r"loadv a,\s*#(" + hex_byte_pattern + r")",
+        "pattern": r"loadv\s+a\s*,\s*#(" + hex_byte_pattern + r")",
         "machinecode": lambda line, pattern: "15" + two_hex_chars(capture_group_content(line, pattern)),
         "bytes": lambda i1, i2: 2,
     },
     {
-        "pattern": r"load a,\s*" + identifier_pattern,
+        "pattern": r"load\s+a\s*,\s*" + identifier_pattern,
         "machinecode": lambda line, pattern: "18" + label_address(line, pattern),
         "bytes": lambda i1, i2: 2,
     },
     {
-        "pattern": r"store " + identifier_pattern + r",\s*a",
+        "pattern": r"store\s+" + identifier_pattern + r"\s*,\s*a",
         "machinecode": lambda line, pattern: "1f" + label_address(line, pattern),
         "bytes": lambda i1, i2: 2,
     },
     {
-        "pattern": r"equ #(" + hex_byte_pattern + r")",
+        "pattern": r"equ\s+#(" + hex_byte_pattern + r")",
         "machinecode": lambda line, pattern: "",
         "bytes": lambda i1, i2: 0,
     },
     {
-        "pattern": r"db #(" + hex_byte_pattern + r")",
+        "pattern": r"db\s+#(" + hex_byte_pattern + r")",
         "machinecode": lambda line, pattern: two_hex_chars(capture_group_content(line, pattern)),
         "bytes": lambda i1, i2: 1,
     },
     {
-        "pattern": r"resb #(" + hex_byte_pattern + r")+",
+        "pattern": r"resb\s+#(" + hex_byte_pattern + r")+",
         "machinecode": lambda line, pattern: resb_machinecode(line, pattern),
         "bytes": lambda line, pattern: resb_bytes(line, pattern),
     },
