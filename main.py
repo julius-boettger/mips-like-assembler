@@ -12,7 +12,7 @@ def label_address(line: str, pattern: str) -> str:
 
 # get content of first capture group, using pattern matching with line and pattern of instruction (see doc below)
 def capture_group_content(line: str, pattern: str) -> str:
-    return re.compile(pattern, re.IGNORECASE).search(line).group(1)
+    return re.compile(pattern, re.IGNORECASE).search(line).group(1).lower()
 
 
 # get hex machinecode for resb instruction, using line and pattern of instruction (see doc below)
@@ -164,7 +164,7 @@ label_table = {
 }
 for line_number, line in enumerate(input_lines):
     line_number += 1 # dont count from 0
-    line = remove_comment(line.replace("\n", "")).strip()
+    line = remove_comment(line.replace("\n", "")).strip().lower()
 
     # match valid assembly code line with instruction (and possibly a label too)
     instruction_match = None
@@ -198,7 +198,7 @@ for line_number, line in enumerate(input_lines):
 output = "" # machine code in hex without spaces like "0f0f0f0f"
 for line_number, line in enumerate(input_lines):
     line_number += 1 # dont count from 0
-    line = remove_comment(line.replace("\n", "")).strip()
+    line = remove_comment(line.replace("\n", "")).strip().lower()
 
     # match valid assembly code line with instruction (and possibly a label too)
     instruction_match = None
