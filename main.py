@@ -204,7 +204,7 @@ for line_number, line in enumerate(input_lines):
                 label_table[label] = ilc
         ilc += instruction["bytes"](line, instruction["pattern"])
         if ilc > 2**8:
-            print(f"translating line {line_number} would result in a program that exceeds the memory capacity ({2**8} bytes)!")
+            print(f"\033[91mError\033[0m: Translating line {line_number} would result in a program that exceeds the memory capacity ({2**8} bytes)")
             exit(1)
     elif re.compile(r"^\s*$", re.IGNORECASE).fullmatch(line) is None:
         print(f"\033[91mError\033[0m: Line {line_number} is syntactically invalid")
