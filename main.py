@@ -160,7 +160,7 @@ instructions = [
         "bytes": lambda i1, i2: 2,
     },
     {
-        "pattern": r"store " + identifier_pattern,
+        "pattern": r"store " + identifier_pattern + r",\s*a",
         "machinecode": lambda line, pattern: "1f" + label_address(line, pattern),
         "bytes": lambda i1, i2: 2,
     },
