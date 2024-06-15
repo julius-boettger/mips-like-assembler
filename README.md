@@ -50,8 +50,8 @@ Parameters are one of the following:
 | `breq [label]` | "Branch if equal", jump to `[label]` if `a == b` |
 | `loadv a, #[value]` | "Load value", `a = value` |
 | `loadv a, [label]` | "Load value", `a = label` |
-| `load a, [label]` | `a = value_at(label)` |
-| `store [label], a` | `value_at(label) = a` |
+| `load a, [label]` | `a = value_at(label)`, `b = address_of_next_instruction` |
+| `store [label], a` | `value_at(label) = a`, `b = address_of_next_instruction` |
 | `db #[value]` | "Define byte", write `[value]` to memory (usually used with label) |
 | `db [label]` | "Define byte", write address of `[label]` to memory (usually used with label) |
 | `resb #[value]` | "Reserve bytes", write byte `00` to memory `[value]` times (usually used with label) |
