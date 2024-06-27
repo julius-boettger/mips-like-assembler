@@ -1,9 +1,8 @@
-; count and output register a to value of input
-         in b             ; b = input
 loop:    load a, counter  ; a = counter
          out a            ; output counter
          inc a            ; counter++
          store counter, a ; save counter
+         in b             ; b = input
          beq end          ; jump to end if a == b (here: counter == input)
          jmp loop         ; repeat
 memory:  resb #4          ; reserve 4 bytes (for no reason)
