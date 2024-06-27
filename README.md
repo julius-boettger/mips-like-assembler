@@ -1,7 +1,7 @@
 # [MIPS](https://en.wikipedia.org/wiki/MIPS_architecture)-like assembler
-A very simple two-pass assembler for a self-designed 8-bit CPU based on [MIPS](https://en.wikipedia.org/wiki/MIPS_architecture).
+A very simple two-pass assembler for a self-designed 8-bit CPU based on [MIPS](https://en.wikipedia.org/wiki/MIPS_architecture) (`computer.circ`, designed in [Logisim-evolution](https://github.com/logisim-evolution/logisim-evolution)).
 
-Written in collaboration with [NilsPvR](https://github.com/NilsPvR).
+Designed and written in collaboration with [NilsPvR](https://github.com/NilsPvR).
 
 ### Prerequisites
 - `python` is installed / accessible
