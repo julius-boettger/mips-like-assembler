@@ -90,17 +90,17 @@ instructions = [
         "bytes": lambda i1, i2: 1,
     },
     {
-        "pattern": r"in(?:put)\s+b",
+        "pattern": r"in(?:put)?\s+b",
         "machinecode": lambda i1, i2: "05",
         "bytes": lambda i1, i2: 1,
     },
     {
-        "pattern": r"out(?:put)\s+a",
+        "pattern": r"out(?:put)?\s+a",
         "machinecode": lambda i1, i2: "06",
         "bytes": lambda i1, i2: 1,
     },
     {
-        "pattern": r"out(?:put)\s+b",
+        "pattern": r"out(?:put)?\s+b",
         "machinecode": lambda i1, i2: "07",
         "bytes": lambda i1, i2: 1,
     },
