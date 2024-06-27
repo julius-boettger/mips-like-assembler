@@ -13,8 +13,9 @@ git clone https://github.com/julius-boettger/mips-like-assembler
 ```
 
 ### Usage
-- Write assembly in a file, e.g. `input.txt` (see [considerations](#considerations-when-coding-for-this-assembler) and [instructions](#supported-instructions) below)
-    - `input.txt` in this repo is an example program
+- Write assembly in a file, e.g. `input.txt`
+    - See `example_input.txt` for an example program
+    - See [considerations](#considerations-when-coding-for-this-assembler) and [instructions](#supported-instructions) for reference
 - Set `input_path` in `main.py` to the path to your file, e.g. `"/path/to/input.txt"`
 - Optionally set `output_path` in `main.py` to something other than `output.txt`
 - Run `python main.py`
