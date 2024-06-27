@@ -85,22 +85,22 @@ instructions = [
         "bytes": lambda i1, i2: 1,
     },
     {
-        "pattern": r"in\s+a",
+        "pattern": r"in(?:put)?\s+a",
         "machinecode": lambda i1, i2: "04",
         "bytes": lambda i1, i2: 1,
     },
     {
-        "pattern": r"in\s+b",
+        "pattern": r"in(?:put)\s+b",
         "machinecode": lambda i1, i2: "05",
         "bytes": lambda i1, i2: 1,
     },
     {
-        "pattern": r"out\s+a",
+        "pattern": r"out(?:put)\s+a",
         "machinecode": lambda i1, i2: "06",
         "bytes": lambda i1, i2: 1,
     },
     {
-        "pattern": r"out\s+b",
+        "pattern": r"out(?:put)\s+b",
         "machinecode": lambda i1, i2: "07",
         "bytes": lambda i1, i2: 1,
     },
@@ -145,17 +145,17 @@ instructions = [
         "bytes": lambda i1, i2: 2,
     },
     {
-        "pattern": r"breq\s+" + identifier_pattern,
+        "pattern": r"beq\s+" + identifier_pattern,
         "machinecode": lambda line, pattern: "12" + label_address(line, pattern),
         "bytes": lambda i1, i2: 2,
     },
     {
-        "pattern": r"loadv\s+a\s*,\s*#(" + hex_byte_pattern + r")",
+        "pattern": r"loadi\s+a\s*,\s*#(" + hex_byte_pattern + r")",
         "machinecode": lambda line, pattern: "15" + two_hex_chars(capture_group_content(line, pattern)),
         "bytes": lambda i1, i2: 2,
     },
     {
-        "pattern": r"loadv\s+a\s*,\s*" + identifier_pattern,
+        "pattern": r"loadi\s+a\s*,\s*" + identifier_pattern,
         "machinecode": lambda line, pattern: "15" + label_address(line, pattern),
         "bytes": lambda i1, i2: 2,
     },
@@ -167,6 +167,11 @@ instructions = [
     {
         "pattern": r"store\s+" + identifier_pattern + r"\s*,\s*a",
         "machinecode": lambda line, pattern: "1f" + label_address(line, pattern),
+        "bytes": lambda i1, i2: 2,
+    },
+    {
+        "pattern": r"store\s+#(" + hex_byte_pattern + r")\s*,\s*a",
+        "machinecode": lambda line, pattern: "1f" + two_hex_chars(capture_group_content(line, pattern)),
         "bytes": lambda i1, i2: 2,
     },
     {
@@ -185,7 +190,7 @@ instructions = [
         "bytes": lambda i1, i2: 1,
     },
     {
-        "pattern": r"resb\s+#(" + hex_byte_pattern + r")+",
+        "pattern": r"(?:ds|resb)\s+#(" + hex_byte_pattern + r")",
         "machinecode": lambda line, pattern: resb_machinecode(line, pattern),
         "bytes": lambda line, pattern: resb_bytes(line, pattern),
     },

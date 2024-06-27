@@ -35,10 +35,10 @@ Parameters are one of the following:
 | ----------- | ----------- |
 | `nop` | No operation |
 | `halt` | Halt program |
-| `in a` | `a = input` |
-| `in b` | `b = input` |
-| `out a` | `output = a` |
-| `out b` | `output = b` |
+| `in a`, `input a` | `a = input` |
+| `in b`, `input b` | `b = input` |
+| `out a`, `output a` | `output = a` |
+| `out b`, `output b` | `output = b` |
 | `inc a` | `a++` |
 | `inc b` | `b++` |
 | `add ab` | `a = a + b` |
@@ -47,12 +47,12 @@ Parameters are one of the following:
 | `or ab` | `a = a \| b` |
 | `mov ba` | `b = a` |
 | `jmp [label]` | Jump to `[label]` |
-| `breq [label]` | "Branch if equal", jump to `[label]` if `a == b` |
-| `loadv a, #[value]` | "Load value", `a = value` |
-| `loadv a, [label]` | "Load value", `a = label` |
+| `beq [label]` | "Branch if equal", jump to `[label]` if `a == b` |
+| `loadi a, #[value]` | "Load immediate", `a = value` |
+| `loadi a, [label]` | "Load immediate", `a = label` |
 | `load a, [label]` | `a = value_at(label)`, `b = address_of_next_instruction` |
 | `store [label], a` | `value_at(label) = a`, `b = address_of_next_instruction` |
 | `db #[value]` | "Define byte", write `[value]` to memory (usually used with label) |
 | `db [label]` | "Define byte", write address of `[label]` to memory (usually used with label) |
-| `resb #[value]` | "Reserve bytes", write byte `00` to memory `[value]` times (usually used with label) |
+| `resb #[value]`, `ds #[value]` | "Reserve bytes" / "data space", write byte `00` to memory `[value]` times (usually used with label) |
 | `[label]: equ #[value]` | "Equate", define constant named `[label]` to be used during assembly process, e.g. `constant: equ #1` and `loadv a, constant` |
