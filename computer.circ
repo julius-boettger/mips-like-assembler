@@ -92,14 +92,18 @@
       <circ-port dir="in" pin="950,820" x="50" y="160"/>
       <circ-port dir="out" pin="1150,250" x="270" y="140"/>
       <circ-port dir="out" pin="1150,350" x="270" y="170"/>
-      <circ-port dir="out" pin="1150,480" x="270" y="90"/>
       <circ-port dir="out" pin="1150,660" x="270" y="130"/>
-      <circ-port dir="out" pin="1150,80" x="270" y="70"/>
+      <circ-port dir="out" pin="1170,480" x="270" y="90"/>
+      <circ-port dir="out" pin="1220,120" x="270" y="70"/>
     </appear>
     <comp lib="0" loc="(1000,820)" name="Pin">
       <a name="appearance" val="NewPins"/>
       <a name="facing" val="north"/>
       <a name="label" val="WE_OUT"/>
+    </comp>
+    <comp lib="0" loc="(1020,110)" name="Constant">
+      <a name="value" val="0x0"/>
+      <a name="width" val="8"/>
     </comp>
     <comp lib="0" loc="(1050,390)" name="Tunnel">
       <a name="facing" val="east"/>
@@ -110,6 +114,10 @@
       <a name="label" val="R"/>
     </comp>
     <comp lib="0" loc="(1090,500)" name="Ground"/>
+    <comp lib="0" loc="(1140,160)" name="Tunnel">
+      <a name="facing" val="east"/>
+      <a name="label" val="CLK"/>
+    </comp>
     <comp lib="0" loc="(1150,250)" name="Pin">
       <a name="appearance" val="NewPins"/>
       <a name="facing" val="west"/>
@@ -124,13 +132,6 @@
       <a name="output" val="true"/>
       <a name="width" val="8"/>
     </comp>
-    <comp lib="0" loc="(1150,480)" name="Pin">
-      <a name="appearance" val="NewPins"/>
-      <a name="facing" val="west"/>
-      <a name="label" val="INSTRUCTION_CODE"/>
-      <a name="output" val="true"/>
-      <a name="width" val="6"/>
-    </comp>
     <comp lib="0" loc="(1150,660)" name="Pin">
       <a name="appearance" val="NewPins"/>
       <a name="facing" val="west"/>
@@ -138,7 +139,18 @@
       <a name="output" val="true"/>
       <a name="width" val="8"/>
     </comp>
-    <comp lib="0" loc="(1150,80)" name="Pin">
+    <comp lib="0" loc="(1160,190)" name="Tunnel">
+      <a name="facing" val="east"/>
+      <a name="label" val="R"/>
+    </comp>
+    <comp lib="0" loc="(1170,480)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="facing" val="west"/>
+      <a name="label" val="INSTRUCTION_CODE"/>
+      <a name="output" val="true"/>
+      <a name="width" val="6"/>
+    </comp>
+    <comp lib="0" loc="(1220,120)" name="Pin">
       <a name="appearance" val="NewPins"/>
       <a name="facing" val="west"/>
       <a name="label" val="CMP"/>
@@ -183,10 +195,6 @@
       <a name="facing" val="north"/>
       <a name="label" val="WE_MBR"/>
     </comp>
-    <comp lib="0" loc="(610,110)" name="Tunnel">
-      <a name="facing" val="east"/>
-      <a name="label" val="CLK"/>
-    </comp>
     <comp lib="0" loc="(610,290)" name="Tunnel">
       <a name="facing" val="east"/>
       <a name="label" val="CLK"/>
@@ -202,11 +210,6 @@
     <comp lib="0" loc="(610,700)" name="Tunnel">
       <a name="facing" val="east"/>
       <a name="label" val="CLK"/>
-    </comp>
-    <comp lib="0" loc="(610,90)" name="Power"/>
-    <comp lib="0" loc="(630,140)" name="Tunnel">
-      <a name="facing" val="east"/>
-      <a name="label" val="R"/>
     </comp>
     <comp lib="0" loc="(630,320)" name="Tunnel">
       <a name="facing" val="east"/>
@@ -229,10 +232,6 @@
       <a name="facing" val="north"/>
       <a name="label" val="WE_PC"/>
     </comp>
-    <comp lib="0" loc="(770,90)" name="Constant">
-      <a name="value" val="0x0"/>
-      <a name="width" val="8"/>
-    </comp>
     <comp lib="0" loc="(870,810)" name="Pin">
       <a name="appearance" val="NewPins"/>
       <a name="facing" val="north"/>
@@ -252,10 +251,13 @@
       <a name="select" val="2"/>
       <a name="width" val="8"/>
     </comp>
-    <comp lib="3" loc="(820,80)" name="Comparator"/>
+    <comp lib="3" loc="(1070,120)" name="Comparator"/>
     <comp lib="4" loc="(1050,320)" name="Register">
       <a name="appearance" val="logisim_evolution"/>
       <a name="label" val="QUT"/>
+    </comp>
+    <comp lib="4" loc="(1150,110)" name="D Flip-Flop">
+      <a name="appearance" val="logisim_evolution"/>
     </comp>
     <comp lib="4" loc="(610,220)" name="Register">
       <a name="appearance" val="logisim_evolution"/>
@@ -264,10 +266,6 @@
     <comp lib="4" loc="(610,350)" name="Register">
       <a name="appearance" val="logisim_evolution"/>
       <a name="label" val="B"/>
-    </comp>
-    <comp lib="4" loc="(610,40)" name="Register">
-      <a name="appearance" val="logisim_evolution"/>
-      <a name="label" val="AR"/>
     </comp>
     <comp lib="4" loc="(610,490)" name="Register">
       <a name="appearance" val="logisim_evolution"/>
@@ -281,20 +279,27 @@
       <a name="font" val="SansSerif bold 12"/>
       <a name="text" val="LOWEST_6_BIT_OF_MBR"/>
     </comp>
-    <comp lib="8" loc="(805,50)" name="Text">
+    <comp lib="8" loc="(1127,89)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="Compare (CMP), 1 if last ALU result was 0"/>
     </comp>
     <comp loc="(950,350)" name="alu"/>
     <wire from="(1000,370)" to="(1000,820)"/>
     <wire from="(1000,370)" to="(1050,370)"/>
+    <wire from="(1020,110)" to="(1030,110)"/>
+    <wire from="(1020,130)" to="(1020,190)"/>
+    <wire from="(1020,130)" to="(1030,130)"/>
     <wire from="(1020,190)" to="(1020,350)"/>
     <wire from="(1020,350)" to="(1050,350)"/>
+    <wire from="(1070,120)" to="(1140,120)"/>
     <wire from="(1070,420)" to="(1080,420)"/>
     <wire from="(1080,410)" to="(1080,420)"/>
     <wire from="(1090,490)" to="(1090,500)"/>
-    <wire from="(1100,480)" to="(1150,480)"/>
+    <wire from="(1100,480)" to="(1170,480)"/>
     <wire from="(1110,350)" to="(1150,350)"/>
+    <wire from="(1160,190)" to="(1170,190)"/>
+    <wire from="(1170,170)" to="(1170,190)"/>
+    <wire from="(1200,120)" to="(1220,120)"/>
     <wire from="(430,800)" to="(430,820)"/>
     <wire from="(430,800)" to="(500,800)"/>
     <wire from="(460,520)" to="(610,520)"/>
@@ -306,8 +311,6 @@
     <wire from="(490,380)" to="(490,660)"/>
     <wire from="(490,380)" to="(610,380)"/>
     <wire from="(490,660)" to="(610,660)"/>
-    <wire from="(490,70)" to="(490,190)"/>
-    <wire from="(490,70)" to="(610,70)"/>
     <wire from="(500,270)" to="(500,800)"/>
     <wire from="(500,270)" to="(610,270)"/>
     <wire from="(500,810)" to="(500,820)"/>
@@ -321,13 +324,11 @@
     <wire from="(560,680)" to="(610,680)"/>
     <wire from="(560,800)" to="(630,800)"/>
     <wire from="(560,810)" to="(560,820)"/>
-    <wire from="(630,140)" to="(640,140)"/>
     <wire from="(630,320)" to="(640,320)"/>
     <wire from="(630,450)" to="(640,450)"/>
     <wire from="(630,590)" to="(640,590)"/>
     <wire from="(630,730)" to="(640,730)"/>
     <wire from="(630,800)" to="(630,820)"/>
-    <wire from="(640,130)" to="(640,140)"/>
     <wire from="(640,310)" to="(640,320)"/>
     <wire from="(640,440)" to="(640,450)"/>
     <wire from="(640,580)" to="(640,590)"/>
@@ -336,11 +337,9 @@
     <wire from="(670,380)" to="(790,380)"/>
     <wire from="(670,520)" to="(770,520)"/>
     <wire from="(670,660)" to="(800,660)"/>
-    <wire from="(670,70)" to="(780,70)"/>
     <wire from="(770,480)" to="(1070,480)"/>
     <wire from="(770,480)" to="(770,520)"/>
     <wire from="(770,520)" to="(790,520)"/>
-    <wire from="(770,90)" to="(780,90)"/>
     <wire from="(790,380)" to="(790,500)"/>
     <wire from="(790,500)" to="(860,500)"/>
     <wire from="(790,510)" to="(790,520)"/>
@@ -353,7 +352,6 @@
     <wire from="(810,310)" to="(920,310)"/>
     <wire from="(810,530)" to="(810,770)"/>
     <wire from="(810,530)" to="(860,530)"/>
-    <wire from="(820,80)" to="(1150,80)"/>
     <wire from="(870,800)" to="(870,810)"/>
     <wire from="(870,800)" to="(880,800)"/>
     <wire from="(880,540)" to="(880,800)"/>
@@ -695,11 +693,11 @@
 </a>
       <a name="dataWidth" val="17"/>
     </comp>
-    <comp lib="8" loc="(290,457)" name="Text">
+    <comp lib="8" loc="(290,455)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val="Mux for next microinstruction, either from RAM"/>
     </comp>
-    <comp lib="8" loc="(315,471)" name="Text">
+    <comp lib="8" loc="(315,470)" name="Text">
       <a name="font" val="SansSerif plain 10"/>
       <a name="text" val=" or decided by last microinstrution"/>
     </comp>
